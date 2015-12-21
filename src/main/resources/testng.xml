@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Filename: testng.xml Note: You have to change the following according
+	to your environment: -<class name="com.packageName.MyTestClassName" /> -->
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
+
+<suite name="Test Suite" parallel="methods" thread-count="1">
+
+    <test name="tests">
+        <packages>
+            <package name="com.com.moneytapp.webuitests"/>
+        </packages>
+    </test>
+
+</suite>
