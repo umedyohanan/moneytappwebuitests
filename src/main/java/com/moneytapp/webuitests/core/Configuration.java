@@ -9,13 +9,13 @@ import java.util.Properties;
 /**
  * Created by u.yahyoev on 21.12.2015.
  */
-public class Config {
+public class Configuration {
 
-    private static final Logger logger = LoggerFactory.getLogger(Config.class);
-    private static Config instance;
+    private static final Logger logger = LoggerFactory.getLogger(Configuration.class);
+    private static Configuration instance;
     private Properties properties;
 
-    public Config() {
+    public Configuration() {
         logger.info("Initializing configuration....");
         properties = new Properties();
         try {
@@ -25,11 +25,11 @@ public class Config {
         }
     }
 
-    public static Config getInstance() {
+    public static Configuration getInstance() {
         if (instance == null) {
-            synchronized (Config.class) {
+            synchronized (Configuration.class) {
                 if (instance == null) {
-                    instance = new Config();
+                    instance = new Configuration();
                 }
             }
         }

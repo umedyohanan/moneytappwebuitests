@@ -7,7 +7,7 @@
 
     <test name="tests">
         <packages>
-            <package name="com.com.moneytapp.webuitests"/>
+            <package name="com.moneytapp.webuitests"/>
         </packages>
     </test>
 

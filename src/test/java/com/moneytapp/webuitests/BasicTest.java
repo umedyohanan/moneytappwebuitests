@@ -1,7 +1,8 @@
 package com.moneytapp.webuitests;
 
-import com.moneytapp.webuitests.core.Config;
+import com.moneytapp.webuitests.core.Configuration;
 import com.moneytapp.webuitests.core.TestSession;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -10,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 
 /**
  * Created by u.yahyoev on 21.12.2015.
@@ -17,7 +19,7 @@ import org.testng.annotations.BeforeMethod;
 public abstract class BasicTest {
     private static final Logger logger = LoggerFactory.getLogger(BasicTest.class);
 
-    protected static Config config = Config.getInstance();
+    protected static Configuration configuration = Configuration.getInstance();
 
     protected WebDriver driver;
 
@@ -33,7 +35,7 @@ public abstract class BasicTest {
     }
 
     protected WebDriver initializeWebDriver() {
-        String browserName = config.getProperty("browser.name");
+        String browserName = configuration.getProperty("browser.name");
         if (browserName.equals("firefox")) {
             return new FirefoxDriver();
         } else if (browserName.equals("chrome")) {
@@ -44,6 +46,11 @@ public abstract class BasicTest {
             throw new RuntimeException(
                     String.format("You have tried to set unsupported browser: %s.", browserName));
         }
+    }
+
+    @DataProvider(name = "appname")
+    public Object[][] newAppName() {
+        return new Object[][]{{"testapp" + RandomStringUtils.randomAlphanumeric(5)}};
     }
 
 
