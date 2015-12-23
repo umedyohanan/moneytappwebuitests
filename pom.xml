@@ -40,11 +40,6 @@
                 <artifactId>httpcore</artifactId>
                 <version>4.4.1</version>
             </dependency>
-            <!--<dependency>
-                <groupId>org.assertj</groupId>
-                <artifactId>assertj-core</artifactId>
-                <version>${assertj.version}</version>
-            </dependency>-->
             <dependency>
                 <groupId>org.seleniumhq.selenium</groupId>
                 <artifactId>selenium-java</artifactId>
@@ -116,10 +111,6 @@
     </dependencyManagement>
 
     <dependencies>
-        <!--<dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-        </dependency>-->
         <dependency>
             <groupId>ru.yandex.qatools.htmlelements</groupId>
             <artifactId>htmlelements-java</artifactId>
@@ -209,25 +200,6 @@
                         </suiteXmlFiles>
                         <parallel>methods</parallel>
                         <threadCount>1</threadCount>
-                        <!--<properties>
-                            <property>
-                                <name>usedefaultlisteners</name>
-                                <value>false</value>
-                            </property>
-                            <property>
-                                <name>listener</name>
-                                <value>
-                                    org.testng.reporters.XMLReporter
-                                </value>
-                            </property>
-                            <property>
-                                <name>generateTestResultAttributes</name>
-                                <value>true</value>
-                            </property>
-                        </properties>-->
-                        <!--<systemPropertyVariables>
-                            <org.uncommons.reportng.escape-output>false</org.uncommons.reportng.escape-output>
-                        </systemPropertyVariables>-->
                     </configuration>
                 </plugin>
                 <plugin>

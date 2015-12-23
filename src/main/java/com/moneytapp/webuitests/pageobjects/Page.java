@@ -4,6 +4,7 @@ import com.google.common.base.Stopwatch;
 import com.moneytapp.webuitests.core.Configuration;
 import com.moneytapp.webuitests.core.TestSession;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
@@ -33,6 +34,52 @@ public abstract class Page<T> {
         PageFactory.initElements(new HtmlElementDecorator(driver), this);
     }
 
+    public static boolean waitForPageFullyLoaded(int timeoutMs) {
+        int previousElementsCount;
+        int currentElementsCount = 0;
+        int interval = 300;
+        long start = System.currentTimeMillis();
+        String result;
+
+        boolean waitMore;
+        boolean timeout;
+
+        do {
+            previousElementsCount = currentElementsCount;
+            try {
+                Thread.sleep(interval);
+                logger.debug("waitForPageFullyLoaded, scanning for nodes...");
+                currentElementsCount = TestSession.getWebdriver().findElements(By.cssSelector("*")).size();
+                logger.debug("waitForPageFullyLoaded, current nodes count: {}, previous nodes count {};",
+                        currentElementsCount, previousElementsCount);
+                result = (String) ((JavascriptExecutor) TestSession.getWebdriver())
+                        .executeScript("return document.readyState");
+
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            boolean elementsCountChanged = currentElementsCount > previousElementsCount;
+
+            boolean domReady = result.equals("complete");
+
+            timeout = System.currentTimeMillis() - start > timeoutMs;
+
+            // We need to wait more if:
+            //      waiting time is less then timeout argument
+            //      AND
+            //           elements count has changed since last try
+            //      OR
+            //           DOM is not yet ready
+
+            logger.debug("Timeout: {}, elemetsCountChanged: {}, domReady: {}", timeout, elementsCountChanged, domReady);
+            waitMore = !timeout && (elementsCountChanged || !domReady);
+        } while (waitMore);
+
+        return timeout;
+    }
+
+
     /**
      * Open url and return instance of opened and initialized page.
      *
@@ -52,9 +99,9 @@ public abstract class Page<T> {
                     "that the page might not have been loaded properly.", url);
         }
         logger.debug("Done: Opening {}, url: {}, time: {} ms.", getPageName(), url, s.elapsed(TimeUnit.MILLISECONDS));
-        Assert.assertTrue(isDemandedPage());
-        //.as("check page must be: %s", this.getPageName());
+        waitForPageFullyLoaded(5000);
         PageFactory.initElements(new HtmlElementDecorator(driver), this);
+        Assert.assertTrue(isDemandedPage());
         return (T) this;
     }
 

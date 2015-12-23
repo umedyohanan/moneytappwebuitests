@@ -43,7 +43,7 @@ public class PageObjectsFactory {
         } catch (Exception e) {
             throw new IllegalArgumentException("Cannot initialize instance of class", e);
         }
-
+        page.waitForPageFullyLoaded(5000);
         PageFactory.initElements(new HtmlElementDecorator(driver), page);
         return page;
     }

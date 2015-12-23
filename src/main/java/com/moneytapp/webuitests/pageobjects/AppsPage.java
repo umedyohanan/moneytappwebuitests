@@ -2,12 +2,9 @@ package com.moneytapp.webuitests.pageobjects;
 
 import org.apache.commons.math3.random.RandomDataGenerator;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -76,8 +73,6 @@ public class AppsPage extends Page<AppsPage> {
     }
 
     public String getAppPageUrlByName(String appName) {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(tableApps));
-        ((JavascriptExecutor) driver).executeScript("$(arguments[0]).focus();", tableApps);
         WebElement appA = tableApps.findElement(By.xpath(String.format("//a[.=\"%s\"]", appName)));
         List<String> href = new ArrayList<String>(Arrays.asList(appA.getAttribute("href").split("/")));
         return href.get(href.size() - 1);

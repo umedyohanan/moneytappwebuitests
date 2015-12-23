@@ -3,6 +3,7 @@ package com.moneytapp.webuitests;
 import com.moneytapp.webuitests.pageobjects.AppPage;
 import com.moneytapp.webuitests.pageobjects.AppsPage;
 import com.moneytapp.webuitests.pageobjects.LoginPage;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -31,13 +32,19 @@ public class AddAppsBasicTest extends BasicTest {
                 .save();
 
         appsPage.open();
+        appsPage.driver.navigate().refresh();
         String appUrl = appsPage.getAppPageUrlByName(appname);
         AppPage appPage = new AppPage(appUrl).open();
 
-
+        Assert.assertEquals(appPage.getAdPlaceName("Banner"), "Banner");
+        Assert.assertEquals(appPage.getAdPlaceStatus("Banner"), "Testing");
+        Assert.assertEquals(appPage.getAdPlaceName("Fullscreen"), "Fullscreen");
+        Assert.assertEquals(appPage.getAdPlaceStatus("Fullscreen"), "Testing");
+        Assert.assertEquals(appPage.getAdPlaceName("Video"), "Video");
+        Assert.assertEquals(appPage.getAdPlaceStatus("Video"), "Testing");
     }
 
-    @Test(dataProvider = "appname", enabled = false)
+    @Test(dataProvider = "appname")
     public void addiOsApp(String appname) {
         AppsPage appsPage = new AppsPage().open();
         appsPage.addNewApp()
@@ -49,6 +56,13 @@ public class AddAppsBasicTest extends BasicTest {
         appsPage.open();
         String appUrl = appsPage.getAppPageUrlByName(appname);
         AppPage appPage = new AppPage(appUrl).open();
+
+        Assert.assertEquals(appPage.getAdPlaceName("Banner"), "Banner");
+        Assert.assertEquals(appPage.getAdPlaceStatus("Banner"), "Testing");
+        Assert.assertEquals(appPage.getAdPlaceName("Fullscreen"), "Fullscreen");
+        Assert.assertEquals(appPage.getAdPlaceStatus("Fullscreen"), "Testing");
+        Assert.assertEquals(appPage.getAdPlaceName("Video"), "Video");
+        Assert.assertEquals(appPage.getAdPlaceStatus("Video"), "Testing");
 
     }
 
